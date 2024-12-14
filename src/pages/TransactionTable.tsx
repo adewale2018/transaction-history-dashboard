@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import { data, mockTransactionsData } from "../utils/data";
 import {
   setCurrentPage,
   setFilter,
+  setSortConfig,
   setTransactions,
 } from "../features/transactions/transactionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../store";
-import TableHead from "./TableHead";
 import TableRow from "./TableRow";
+import { TransactionProps } from "../features/transactions/transactionSlice";
+import { mockTransactionsData } from "../utils/data";
 
 const TransactionTable: React.FC = () => {
   const dispatch = useDispatch();
-  const { transactions, filter, pageSize, currentPage } = useSelector(
-    (state: RootState) => state.transactions
-  );
+  const { transactions, filter, pageSize, currentPage, sortConfig } =
+    useSelector((state: RootState) => state.transactions);
 
   const filteredTransactions =
     filter === "all"
@@ -27,14 +27,30 @@ const TransactionTable: React.FC = () => {
 
   const totalPages = Math.ceil(filteredTransactions.length / pageSize);
 
+  // sort transactions based on sortConfig
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+
+    const isAsc = sortConfig.direction === "asc";
+    if (a[sortConfig.key] < b[sortConfig.key]) return isAsc ? -1 : 1;
+    if (a[sortConfig.key] > b[sortConfig.key]) return isAsc ? 1 : -1;
+    return 0;
+  });
+
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    return filteredTransactions.slice(startIndex, endIndex);
+    return sortedTransactions.slice(startIndex, endIndex);
   };
 
   const handlePageChange = (page: number) => {
     dispatch(setCurrentPage(page));
+  };
+
+  const handleSort = (key: keyof TransactionProps) => {
+    const direction =
+      sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
+    dispatch(setSortConfig({ key, direction }));
   };
 
   useEffect(() => {
@@ -42,7 +58,7 @@ const TransactionTable: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="md:px-8">
+    <div>
       <div className="flex items-center justify-between mb-4 flex-wrap">
         <h2 className="text-xl font-bold mb-5">Transactions History</h2>
         <div className="flex space-x-2">
@@ -82,7 +98,38 @@ const TransactionTable: React.FC = () => {
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 shadow-md rounded">
-          <TableHead data={data} />
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-6 py-3  text-left text-gray-600 font-bold">
+                ID
+              </th>
+              <th
+                className="px-2 md:px-6 py-1 md:py-3  text-left text-gray-600 font-bold cursor-pointer"
+                onClick={() => handleSort("date")}
+              >
+                Date{" "}
+                {sortConfig.key === "date" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+              </th>
+              <th
+                className="px-2 md:px-6 py-1 md:py-3  text-left text-gray-600 font-bold cursor-pointer"
+                onClick={() => handleSort("amount")}
+              >
+                Amount{" "}
+                {sortConfig.key === "amount" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+              </th>
+              <th className="px-6 py-3  text-left text-gray-600 font-bold">
+                Description
+              </th>
+              <th className="px-6 py-3  text-left text-gray-600 font-bold">
+                Status
+              </th>
+              <th className="px-6 py-3  text-left text-gray-600 font-bold">
+                Details
+              </th>
+            </tr>
+          </thead>
           <tbody>
             {getCurrentPageData().map((transaction) => (
               <TableRow key={transaction.id} {...transaction} />

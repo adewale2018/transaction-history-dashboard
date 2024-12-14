@@ -12,7 +12,9 @@ const TableRow = ({
   return (
     <tr className="hover:bg-gray-50">
       <td className="px-6 py-4 border-b">{id}</td>
-      <td className="px-6 py-4 border-b">{date}</td>
+      <td className="px-6 py-4 border-b" >
+        {date}
+      </td>
       <td className="px-6 py-4 border-b">₦{amount.toFixed(2)}</td>
       <td className="px-6 py-4 border-b">{description}</td>
       <td

@@ -13,6 +13,10 @@ interface TransactionState {
   filter: string;
   currentPage: number;
   pageSize: number;
+  sortConfig: {
+    key: keyof TransactionProps | null;
+    direction: "asc" | "desc" | null;
+  };
 }
 
 const initialState: TransactionState = {
@@ -20,6 +24,7 @@ const initialState: TransactionState = {
   filter: "all",
   currentPage: 1,
   pageSize: 5,
+  sortConfig: { key: "date", direction: "asc" },
 };
 
 const transactionSlice = createSlice({
@@ -39,9 +44,19 @@ const transactionSlice = createSlice({
       const { payload } = action;
       state.currentPage = payload;
     },
+    setSortConfig: (
+      state,
+      action: PayloadAction<{
+        key: keyof TransactionProps;
+        direction: "asc" | "desc";
+      }>
+    ) => {
+      const { payload } = action;
+      state.sortConfig = payload;
+    },
   },
 });
 
-export const { setTransactions, setFilter, setCurrentPage } =
+export const { setTransactions, setFilter, setCurrentPage, setSortConfig } =
   transactionSlice.actions;
 export default transactionSlice.reducer;
