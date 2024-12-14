@@ -12,11 +12,13 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("DATA", { email, password });
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
+      if(!email || !password) {
+        throw new Error("Email and Password must be provided!")
+      }
       const res = await mockLogin({ email, password });
       if (res && res.status === 200 && res.token) {
         localStorage.setItem("token", res.token);
@@ -30,15 +32,14 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="p-5 h-screen flex  justify-center">
-      <div className="mt-20 border shadow px-5 md:px-10 rounded py-10">
-        <div className="w-full h-full">
-          <h2 className="font-mono text-[#166CF3] text-xl font-medium md:text-2xl mb-5">
+    <section className="px-3 flex items-center justify-center h-screen bg-gray-100">
+      <div className="bg-white border shadow-md px-5 md:px-10 rounded py-10">
+          <h2 className="font-mono text-[#166CF3] text-xl font-bold md:text-2xl mb-5">
             Login with your credentials
           </h2>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          <p className="text-gray-500 mb-5 font-serif">
-            Enter your email and password in the fields below
+          {error && <p className="text-red-500 font-mono text-sm mb-4">{error}</p>}
+          <p className="mb-5 font-serif">
+            Enter your email and password in the fields below.
           </p>
 
           <form
@@ -69,7 +70,6 @@ const LoginPage = () => {
             <CustomButton type="submit" label="Login" loading={loading} />
           </form>
         </div>
-      </div>
     </section>
   );
 };
