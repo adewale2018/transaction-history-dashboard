@@ -1,4 +1,4 @@
-export const transactions = [
+export const mockTransactionsData = [
   { id: 1, date: "2024-12-01", amount: 100.5, description: "Groceries", status: "success" },
   { id: 2, date: "2024-12-02", amount: 200.0, description: "Rent", status: "success" },
   { id: 3, date: "2024-12-03", amount: 50.75, description: "Utilities", status: "failed" },
