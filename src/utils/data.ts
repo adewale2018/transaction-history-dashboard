@@ -1,3 +1,30 @@
+export const data = [
+  {
+    id: 1,
+    label: "ID"
+  },
+  {
+    id: 1,
+    label: "Date"
+  },
+  {
+    id: 1,
+    label: "Amount"
+  },
+  {
+    id: 1,
+    label: "Description"
+  },
+  {
+    id: 1,
+    label: "Status"
+  },
+  {
+    id: 1,
+    label: "Details"
+  },
+]
+
 export const mockTransactionsData = [
   { id: 1, date: "2024-12-01", amount: 100.5, description: "Groceries", status: "success" },
   { id: 2, date: "2024-12-02", amount: 200.0, description: "Rent", status: "success" },

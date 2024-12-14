@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
+import { data, mockTransactionsData } from "../utils/data";
 import {
+  setCurrentPage,
   setFilter,
   setTransactions,
 } from "../features/transactions/transactionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../store";
+import TableHead from "./TableHead";
 import TableRow from "./TableRow";
-import { mockTransactionsData } from "../utils/data";
 
 const TransactionTable: React.FC = () => {
   const dispatch = useDispatch();
-  const { transactions, filter } = useSelector(
+  const { transactions, filter, pageSize, currentPage } = useSelector(
     (state: RootState) => state.transactions
   );
 
@@ -22,6 +24,18 @@ const TransactionTable: React.FC = () => {
 
   const handleFilterChange = (transactionStatus: string) =>
     dispatch(setFilter(transactionStatus));
+
+  const totalPages = Math.ceil(filteredTransactions.length / pageSize);
+
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return filteredTransactions.slice(startIndex, endIndex);
+  };
+
+  const handlePageChange = (page: number) => {
+    dispatch(setCurrentPage(page));
+  };
 
   useEffect(() => {
     dispatch(setTransactions(mockTransactionsData));
@@ -68,34 +82,28 @@ const TransactionTable: React.FC = () => {
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 shadow-md rounded">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="px-6 py-3 border-b text-left text-gray-600 font-bold">
-                ID
-              </th>
-              <th className="px-6 py-3 border-b text-left text-gray-600 font-bold">
-                Date
-              </th>
-              <th className="px-6 py-3 border-b text-left text-gray-600 font-bold">
-                Amount
-              </th>
-              <th className="px-6 py-3 border-b text-left text-gray-600 font-bold">
-                Description
-              </th>
-              <th className="px-6 py-3 border-b text-left text-gray-600 font-bold">
-                Status
-              </th>
-              <th className="px-6 py-3 border-b text-left text-gray-600 font-bold">
-                Details
-              </th>
-            </tr>
-          </thead>
+          <TableHead data={data} />
           <tbody>
-            {filteredTransactions.map((transaction) => (
+            {getCurrentPageData().map((transaction) => (
               <TableRow key={transaction.id} {...transaction} />
             ))}
           </tbody>
         </table>
+      </div>
+      <div className=" overflow-x-auto flex justify-start items-center mt-8 space-x-2">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`px-4 py-2 rounded mb-2 ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200"
+            }`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
     </div>
   );
