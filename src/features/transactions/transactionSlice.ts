@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface Transaction {
+export interface TransactionProps {
   id: number;
   date: string;
   amount: number;
@@ -9,7 +9,7 @@ export interface Transaction {
 }
 
 interface TransactionState {
-  transactions: Transaction[];
+  transactions: TransactionProps[];
   filter: string;
   currentPage: number;
   pageSize: number;
@@ -26,15 +26,18 @@ const transactionSlice = createSlice({
   name: "transactions",
   initialState,
   reducers: {
-    setTransactions: (state, action: PayloadAction<Transaction[]>) => {
-      state.transactions = action.payload;
+    setTransactions: (state, action: PayloadAction<TransactionProps[]>) => {
+      const { payload } = action;
+      state.transactions = payload;
     },
     setFilter: (state, action: PayloadAction<string>) => {
-      state.filter = action.payload;
+      const { payload } = action;
+      state.filter = payload;
       state.currentPage = 1;
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
-      state.currentPage = action.payload;
+      const { payload } = action;
+      state.currentPage = payload;
     },
   },
 });
