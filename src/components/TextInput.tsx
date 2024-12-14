@@ -1,11 +1,10 @@
-
 export interface InputProps {
   label: string;
   name: string;
   type: string;
   id: string;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   value: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -17,7 +16,6 @@ const TextInput = ({
   placeholder,
   type,
   id,
-  required,
   handleChange,
 }: InputProps) => {
   return (
@@ -32,9 +30,11 @@ const TextInput = ({
         value={value}
         placeholder={placeholder}
         onChange={handleChange}
-        required={required}
-        className="px-5 py-2 mt-1 w-full rounded-md bg-white text-sm text-gray-700 shadow-sm border border-blue-500"
+        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring"
       />
+      {(!value || value.trim().length === 0) && (
+        <span className="text-sm text-red-400">Required</span>
+      )}
     </div>
   );
 };
