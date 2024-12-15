@@ -11,7 +11,7 @@ const Header = () => {
   };
   return (
     <header className="flex justify-between items-center border-b border-gray-200 bg-gray-50 px-3 md:px-20 py-5">
-      <Link to={"/"}>
+      <Link to={"/dashboard"}>
         <img src={Logo} alt="Prophius logo" className="w-20" />
       </Link>
       {email && <CustomButton label="Logout" handleClick={handleLogOut} />}
