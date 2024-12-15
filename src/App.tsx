@@ -30,7 +30,7 @@ function App() {
           />
         </Routes>
       </Router>
-      <ToastContainer theme="dark" />
+      <ToastContainer theme="dark" autoClose={1000} />
     </>
   );
 }

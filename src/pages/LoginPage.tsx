@@ -25,6 +25,7 @@ const LoginPage = () => {
         mockLogin({ email, password }) as any
       ).unwrap();
       if (res.status === 200 && res.token) {
+        toast.success("You are successfully logged in");
         window.localStorage.setItem("token", res.token);
         navigate("/dashboard");
       }

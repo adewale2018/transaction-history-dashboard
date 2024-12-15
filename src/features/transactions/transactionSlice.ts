@@ -1,4 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { mockTransactionsData as data } from "../../utils/data";
 
 export interface TransactionProps {
   id: number;
@@ -10,6 +12,8 @@ export interface TransactionProps {
 
 interface TransactionState {
   transactions: TransactionProps[];
+  loading: boolean;
+  error: string | null;
   filter: string;
   currentPage: number;
   pageSize: number;
@@ -21,11 +25,15 @@ interface TransactionState {
 
 const initialState: TransactionState = {
   transactions: [],
+  loading: false,
+  error: null,
   filter: "all",
   currentPage: 1,
-  pageSize: 5,
+  pageSize: 6,
   sortConfig: { key: "date", direction: "asc" },
 };
+
+
 
 const transactionSlice = createSlice({
   name: "transactions",
@@ -34,6 +42,10 @@ const transactionSlice = createSlice({
     setTransactions: (state, action: PayloadAction<TransactionProps[]>) => {
       const { payload } = action;
       state.transactions = payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      const { payload } = action;
+      state.loading = payload;
     },
     setFilter: (state, action: PayloadAction<string>) => {
       const { payload } = action;
@@ -55,8 +67,40 @@ const transactionSlice = createSlice({
       state.sortConfig = payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(mockGetTransactions.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(mockGetTransactions.fulfilled, (state, action: PayloadAction<TransactionProps[]>) => {
+        state.loading = false;
+        state.transactions = action.payload;
+      })
+      .addCase(mockGetTransactions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Something went wrong.";
+      });
+  },
 });
 
-export const { setTransactions, setFilter, setCurrentPage, setSortConfig } =
+export const mockGetTransactions = createAsyncThunk(
+  "transactions/getTransactions",
+  async () => {
+    try {
+      const response = await new Promise<{ status: number; transactions: typeof data }>((resolve) => {
+        setTimeout(() => {
+          resolve({ status: 200, transactions: data });
+        }, 2000);
+      });
+
+      return response.transactions; // Return the transactions array
+    } catch (error) {
+      throw new Error("Failed to fetch transactions.");
+    }
+  }
+);
+
+export const { setTransactions, setFilter, setCurrentPage, setSortConfig, setLoading } =
   transactionSlice.actions;
 export default transactionSlice.reducer;
