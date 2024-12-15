@@ -10,9 +10,11 @@ import {
 } from "../features/transactions/transactionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+import Papa from "papaparse";
 import { RootState } from "../store";
 import Spinner from "../components/Spinner";
 import TableRow from "./TableRow";
+import { saveAs } from "file-saver";
 
 const TransactionTable: React.FC = () => {
   const dispatch = useDispatch();
@@ -62,6 +64,12 @@ const TransactionTable: React.FC = () => {
     dispatch(setSortConfig({ key, direction }));
   };
 
+  const handleDownloadCSV = () => {
+    const csv = Papa.unparse(transactions); // Convert data to CSV format
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" }); // Create a blob
+    saveAs(blob, "transactions.csv"); // Trigger download
+  };
+
   useEffect(() => {
     dispatch(mockGetTransactions() as any);
   }, [dispatch]);
@@ -84,9 +92,23 @@ const TransactionTable: React.FC = () => {
   }
 
   return (
-    <section className="mt-10 px-5 md:px-20">
+    <section className="">
+      {/* Here */}
+      <div className="flex items-center justify-between mb-4 flex-wrap" >
+      <h2 className="font-serif text-xl font-medium mb-5 text-gray-500">
+          Transactions History
+        </h2>
+        <button
+          onClick={handleDownloadCSV}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Download CSV
+        </button>
+      </div>
+      {/* Here */}
       <div className="flex items-center justify-between mb-4 flex-wrap">
-        <h2 className="font-serif text-xl font-medium mb-5 text-gray-500">Transactions History</h2>
+        
+        <div className="flex items-center justify-end mb-4"></div>
         <div className="flex space-x-2">
           <button
             className={`px-5 py-1 rounded-full text-sm ${
