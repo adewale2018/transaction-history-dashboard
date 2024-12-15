@@ -14,8 +14,6 @@ import { RootState } from "../store";
 import Spinner from "../components/Spinner";
 import TableRow from "./TableRow";
 
-// import { mockTransactionsData } from "../utils/data";
-
 const TransactionTable: React.FC = () => {
   const dispatch = useDispatch();
   const {
@@ -76,7 +74,7 @@ const TransactionTable: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center flex-col items-center text-base">
+      <div className="mt-40 flex flex-col justify-center items-center  text-base">
         <p className="text-base md:text-2xl animate-bounce font-thin">
           Loading transactions, please wait...
         </p>
@@ -88,7 +86,7 @@ const TransactionTable: React.FC = () => {
   return (
     <section className="mt-10 px-5 md:px-20">
       <div className="flex items-center justify-between mb-4 flex-wrap">
-        <h2 className="text-xl font-medium mb-5 text-gray-500">Transactions History</h2>
+        <h2 className="font-serif text-xl font-medium mb-5 text-gray-500">Transactions History</h2>
         <div className="flex space-x-2">
           <button
             className={`px-5 py-1 rounded-full text-sm ${
