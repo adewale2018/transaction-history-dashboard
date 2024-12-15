@@ -1,11 +1,11 @@
-import { MockLoginRes, mockLogin } from "../features/auth/authSlice";
+import { MockLoginRes, mockLogin, setAuthEmail } from "../features/auth/authSlice";
+import { useEffect, useState } from "react";
 
 import CustomButton from "../components/Button";
 import TextInput from "../components/TextInput";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       setError("");
       setLoading(true);
@@ -27,6 +26,7 @@ const LoginPage = () => {
       if (res.status === 200 && res.token) {
         toast.success("You are successfully logged in");
         window.localStorage.setItem("token", res.token);
+        dispatch(setAuthEmail(email));
         navigate("/dashboard");
       }
     } catch (error: any) {
@@ -36,6 +36,10 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    window.localStorage.removeItem("token");
+  }, [])
 
   return (
     <section className="px-3 flex items-center justify-center h-screen bg-gray-100">

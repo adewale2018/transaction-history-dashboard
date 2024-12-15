@@ -12,6 +12,7 @@ export interface TransactionProps {
 
 interface TransactionState {
   transactions: TransactionProps[];
+  transactionDetails: TransactionProps | null;
   loading: boolean;
   error: string | null;
   filter: string;
@@ -25,6 +26,7 @@ interface TransactionState {
 
 const initialState: TransactionState = {
   transactions: [],
+  transactionDetails: null,
   loading: false,
   error: null,
   filter: "all",
@@ -32,8 +34,6 @@ const initialState: TransactionState = {
   pageSize: 6,
   sortConfig: { key: "date", direction: "asc" },
 };
-
-
 
 const transactionSlice = createSlice({
   name: "transactions",
@@ -73,13 +73,29 @@ const transactionSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(mockGetTransactions.fulfilled, (state, action: PayloadAction<TransactionProps[]>) => {
-        state.loading = false;
-        state.transactions = action.payload;
-      })
+      .addCase(
+        mockGetTransactions.fulfilled,
+        (state, action: PayloadAction<TransactionProps[]>) => {
+          state.loading = false;
+          state.transactions = action.payload;
+        }
+      )
       .addCase(mockGetTransactions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Something went wrong.";
+      })
+      .addCase(mockGetTransactionDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.transactionDetails = null;
+      })
+      .addCase(mockGetTransactionDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.transactionDetails = action.payload;
+      })
+      .addCase(mockGetTransactionDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
@@ -88,19 +104,53 @@ export const mockGetTransactions = createAsyncThunk(
   "transactions/getTransactions",
   async () => {
     try {
-      const response = await new Promise<{ status: number; transactions: typeof data }>((resolve) => {
+      const response = await new Promise<{
+        status: number;
+        transactions: typeof data;
+      }>((resolve) => {
         setTimeout(() => {
           resolve({ status: 200, transactions: data });
         }, 2000);
       });
 
-      return response.transactions; // Return the transactions array
+      return response.transactions;
     } catch (error) {
       throw new Error("Failed to fetch transactions.");
     }
   }
 );
 
-export const { setTransactions, setFilter, setCurrentPage, setSortConfig, setLoading } =
-  transactionSlice.actions;
+export const mockGetTransactionDetails = createAsyncThunk<
+  TransactionProps,
+  number,
+  { rejectValue: string }
+>("transactions/getTransaction", async (transactionId, { rejectWithValue }) => {
+  try {
+    const response = await new Promise<{
+      status: number;
+      details: TransactionProps | undefined;
+    }>((resolve) => {
+      setTimeout(() => {
+        const details = data.find((item) => item.id === transactionId);
+        resolve({ status: 200, details });
+      }, 2000);
+    });
+
+    if (!response.details) {
+      return rejectWithValue("Transaction not found.");
+    }
+
+    return response.details;
+  } catch (error) {
+    return rejectWithValue("Failed to fetch transaction!.");
+  }
+});
+
+export const {
+  setTransactions,
+  setFilter,
+  setCurrentPage,
+  setSortConfig,
+  setLoading,
+} = transactionSlice.actions;
 export default transactionSlice.reducer;
