@@ -1,21 +1,32 @@
 import React, { useEffect } from "react";
 import {
+  TransactionProps,
+  mockGetTransactions,
+} from "../features/transactions/transactionSlice";
+import {
   setCurrentPage,
   setFilter,
   setSortConfig,
-  setTransactions,
 } from "../features/transactions/transactionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../store";
+import Spinner from "../components/Spinner";
 import TableRow from "./TableRow";
-import { TransactionProps } from "../features/transactions/transactionSlice";
-import { mockTransactionsData } from "../utils/data";
+
+// import { mockTransactionsData } from "../utils/data";
 
 const TransactionTable: React.FC = () => {
   const dispatch = useDispatch();
-  const { transactions, filter, pageSize, currentPage, sortConfig } =
-    useSelector((state: RootState) => state.transactions);
+  const {
+    transactions,
+    loading,
+    error,
+    filter,
+    pageSize,
+    currentPage,
+    sortConfig,
+  } = useSelector((state: RootState) => state.transactions);
 
   const filteredTransactions =
     filter === "all"
@@ -54,13 +65,30 @@ const TransactionTable: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(setTransactions(mockTransactionsData));
+    dispatch(mockGetTransactions() as any);
   }, [dispatch]);
 
+  if (error) {
+    return (
+      <p className="text-red-500 text-center text-lg md:text-2xl">{error}</p>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center flex-col items-center text-base">
+        <p className="text-base md:text-2xl animate-bounce font-thin">
+          Loading transactions, please wait...
+        </p>
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <section className="mt-10 px-5 md:px-20">
       <div className="flex items-center justify-between mb-4 flex-wrap">
-        <h2 className="text-xl font-bold mb-5">Transactions History</h2>
+        <h2 className="text-xl font-medium mb-5 text-gray-500">Transactions History</h2>
         <div className="flex space-x-2">
           <button
             className={`px-5 py-1 rounded-full text-sm ${
@@ -152,7 +180,7 @@ const TransactionTable: React.FC = () => {
           </button>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
