@@ -26,6 +26,7 @@ const LoginPage = () => {
       if (res.status === 200 && res.token) {
         toast.success("You are successfully logged in");
         window.localStorage.setItem("token", res.token);
+        window.localStorage.setItem("userEmail", email);
         dispatch(setAuthEmail(email));
         navigate("/dashboard");
       }
