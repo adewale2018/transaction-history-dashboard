@@ -10,7 +10,6 @@ import {
 import { Link, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
-import DashboardWrapper from "../../components/DashboardWrapper";
 import { RootState } from "../../store";
 import Spinner from "../../components/Spinner";
 import UserInfo from "../User";
