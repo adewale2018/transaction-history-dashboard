@@ -65,9 +65,9 @@ const TransactionTable: React.FC = () => {
   };
 
   const handleDownloadCSV = () => {
-    const csv = Papa.unparse(transactions); // Convert data to CSV format
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" }); // Create a blob
-    saveAs(blob, "transactions.csv"); // Trigger download
+    const csv = Papa.unparse(transactions); 
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, "transactions.csv");
   };
 
   useEffect(() => {
@@ -92,10 +92,10 @@ const TransactionTable: React.FC = () => {
   }
 
   return (
-    <section className="">
+    <section className="mb-10">
       {/* Here */}
-      <div className="flex items-center justify-between mb-4 flex-wrap" >
-      <h2 className="font-serif text-xl font-medium mb-5 text-gray-500">
+      <div className="flex items-center justify-between mb-5 flex-wrap">
+        <h2 className="font-serif text-xl font-medium mt-10 mb-5 text-[#166CF3]">
           Transactions History
         </h2>
         <button
@@ -106,12 +106,10 @@ const TransactionTable: React.FC = () => {
         </button>
       </div>
       {/* Here */}
-      <div className="flex items-center justify-between mb-4 flex-wrap">
-        
-        <div className="flex items-center justify-end mb-4"></div>
+      <div className="border shadow-md rounded-md md:px-10 px-2 py-5 flex items-center justify-end mb-4 flex-wrap">
         <div className="flex space-x-2">
           <button
-            className={`px-5 py-1 rounded-full text-sm ${
+            className={`px-3 md:px-5 py-1 rounded-full text-sm ${
               filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}
             onClick={() => handleFilterChange("all")}
@@ -119,7 +117,7 @@ const TransactionTable: React.FC = () => {
             All
           </button>
           <button
-            className={`px-5 py-1 rounded-full text-sm ${
+            className={`px-3 md:px-5 py-1 rounded-full text-sm ${
               filter === "success" ? "bg-green-500 text-white" : "bg-gray-200"
             }`}
             onClick={() => handleFilterChange("success")}
@@ -127,7 +125,7 @@ const TransactionTable: React.FC = () => {
             Success
           </button>
           <button
-            className={`px-5 py-1 rounded-full text-sm ${
+            className={`px-3 md:px-5 py-1 rounded-full text-sm ${
               filter === "pending" ? "bg-gray-500 text-white" : "bg-gray-200"
             }`}
             onClick={() => handleFilterChange("pending")}
@@ -135,7 +133,7 @@ const TransactionTable: React.FC = () => {
             Pending
           </button>
           <button
-            className={`px-5 py-1 rounded-full text-sm ${
+            className={`px-3 md:px-5 py-1 rounded-full text-sm ${
               filter === "failed" ? "bg-red-500 text-white" : "bg-gray-200"
             }`}
             onClick={() => handleFilterChange("failed")}

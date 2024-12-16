@@ -1,6 +1,8 @@
+import { Link, useNavigate } from "react-router-dom";
+
 import { ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
 import { TransactionProps } from "../features/transactions/transactionSlice";
+import moment from "moment";
 
 const TableRow = ({
   id,
@@ -9,12 +11,15 @@ const TableRow = ({
   amount,
   description,
 }: TransactionProps) => {
+  const navigate = useNavigate();
+
   return (
-    <tr className="hover:bg-gray-50">
+    <tr
+      className="hover:bg-gray-50 cursor-pointer"
+      onClick={() => navigate(`/transactions/${id}`)}
+    >
       <td className="px-6 py-4 border-b">{id}</td>
-      <td className="px-6 py-4 border-b" >
-        {date}
-      </td>
+      <td className="px-6 py-4 border-b">{moment(date).format("ll")}</td>
       <td className="px-6 py-4 border-b">₦{amount.toFixed(2)}</td>
       <td className="px-6 py-4 border-b">{description}</td>
       <td
