@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { ExternalLink } from "lucide-react";
-import { TransactionProps } from "../features/transactions/transactionSlice";
+import { TransactionProps } from "../../features/transactions/transactionSlice";
 import moment from "moment";
 
 const TableRow = ({

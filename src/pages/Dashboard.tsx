@@ -1,5 +1,5 @@
 import DashboardWrapper from "../components/DashboardWrapper";
-import TransactionTable from "./TransactionTable";
+import TransactionTable from './transactions-table/TransactionTable';
 import UserInfo from "./User";
 
 const Dashboard = () => {

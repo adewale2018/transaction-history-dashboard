@@ -1,3 +1,4 @@
+import { Eye, EyeOff } from 'lucide-react';
 import { MockLoginRes, mockLogin, setAuthEmail } from "../features/auth/authSlice";
 import { useEffect, useState } from "react";
 
@@ -10,10 +11,13 @@ import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const[showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const togglePasswordShow  =() => setShowPassword(!showPassword);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,6 +77,8 @@ const LoginPage = () => {
             type="password"
             placeholder="Enter your password"
             label="Password"
+            icon={showPassword ? <Eye className='cursor-pointer absolute right-2 bottom-2' onClick={togglePasswordShow} /> : <EyeOff className='cursor-pointer absolute right-2 bottom-2' onClick={togglePasswordShow} />}
+            showPassword={showPassword}
             handleChange={(e) => setPassword(e.target.value)}
             required
           />

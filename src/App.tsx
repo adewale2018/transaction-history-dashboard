@@ -4,7 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
-import TransactionDetailsPage from "./pages/TransactionDetailsPage";
+import TransactionDetail from "./pages/transaction-detail/TransactionDetail";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             path="/transactions/:transactionId"
             element={
               <ProtectedRoute>
-                <TransactionDetailsPage />
+                <TransactionDetail />
               </ProtectedRoute>
             }
           />

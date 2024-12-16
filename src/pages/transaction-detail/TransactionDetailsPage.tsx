@@ -10,11 +10,11 @@ import {
 import { Link, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
-import DashboardWrapper from "../components/DashboardWrapper";
-import { RootState } from "../store";
-import Spinner from "../components/Spinner";
-import UserInfo from "./User";
-import { mockGetTransactionDetails } from "../features/transactions/transactionSlice";
+import DashboardWrapper from "../../components/DashboardWrapper";
+import { RootState } from "../../store";
+import Spinner from "../../components/Spinner";
+import UserInfo from "../User";
+import { mockGetTransactionDetails } from "../../features/transactions/transactionSlice";
 import moment from "moment";
 import { useEffect } from "react";
 
@@ -49,7 +49,7 @@ const TransactionDetailsPage = () => {
   }
 
   return (
-    <DashboardWrapper>
+    <section>
       <div className="mt-5 md:mt-10">
         <Link
           to={`/dashboard`}
@@ -124,7 +124,7 @@ const TransactionDetailsPage = () => {
           </div>
         </div>
       </div>
-    </DashboardWrapper>
+    </section>
   );
 };
 
