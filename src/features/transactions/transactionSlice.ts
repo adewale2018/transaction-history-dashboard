@@ -31,7 +31,7 @@ const initialState: TransactionState = {
   error: null,
   filter: "all",
   currentPage: 1,
-  pageSize: 6,
+  pageSize: 4,
   sortConfig: { key: "date", direction: "asc" },
 };
 

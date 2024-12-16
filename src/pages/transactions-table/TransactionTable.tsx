@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import {
   TransactionProps,
   mockGetTransactions,
-} from "../features/transactions/transactionSlice";
+} from "../../features/transactions/transactionSlice";
 import {
   setCurrentPage,
   setFilter,
   setSortConfig,
-} from "../features/transactions/transactionSlice";
+} from "../../features/transactions/transactionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import Papa from "papaparse";
-import { RootState } from "../store";
-import Spinner from "../components/Spinner";
+import { RootState } from "../../store";
+import Spinner from "../../components/Spinner";
 import TableRow from "./TableRow";
 import { saveAs } from "file-saver";
 
