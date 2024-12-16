@@ -13,10 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import DashboardWrapper from "../components/DashboardWrapper";
 import { RootState } from "../store";
 import Spinner from "../components/Spinner";
+import UserInfo from "./User";
 import { mockGetTransactionDetails } from "../features/transactions/transactionSlice";
+import moment from "moment";
 import { useEffect } from "react";
 
 const TransactionDetailsPage = () => {
+  const userEmail = localStorage.getItem("userEmail");
   const dispatch = useDispatch();
   const { transactionId } = useParams();
   const { loading, error, transactionDetails } = useSelector(
@@ -56,11 +59,11 @@ const TransactionDetailsPage = () => {
           <ChevronLeft className="h-8 w-8 cursor-pointer" color="#166CF3" />{" "}
           Back
         </Link>
+        <UserInfo />
         <div className="shadow-md p-8 border rounded bg-gray-100 mb-10">
           <h2 className="font-serif text-[#166CF3] text-xl md:text-3xl font-bold">
             Transaction Details
           </h2>
-
           <p className="px-2 mt-5 text-xl font-serif">
             ID:{" "}
             <span className="md:ml-5 px-8 text-base md:text-lg font-semibold py-1 rounded-full bg-blue-200 text-blue-600">
@@ -73,7 +76,7 @@ const TransactionDetailsPage = () => {
           <div className="border-b py-4 flex justify-between items-center">
             <h4 className="font-serif text-base md:text-xl">Date</h4>
             <span className="flex items-center gap-2 capitalize bg-blue-100 rounded-full px-5 md:px-8 py-1 md:py-2  text-blue-600 font-medium">
-              {transactionDetails?.date}
+              {moment(transactionDetails?.date).format("lll")}
               <Calendar />
             </span>
           </div>

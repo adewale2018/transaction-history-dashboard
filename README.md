@@ -1,7 +1,7 @@
 # Transaction History Dashboard
 
 ## This project is built with the following tools and technologies:
-- **`React`, `TypeScript`, `Redux`, `Redux-toolkit`, `TailwindCSS`, `React-router-dom`, `Lucide-react-icons`, `React-toastify`**
+- **`React`, `TypeScript`, `Redux`, `Redux-toolkit`, `TailwindCSS`, `React-router-dom`, `Lucide-react-icons`, `React-toastify`, `moment.js`, `react-window`**
 
 ## To set up the project, follow the these instructions;
 - First, ensure you have Node.js installed on your machine. To install Node.js, Check [**here**](https://nodejs.org/en)
@@ -18,3 +18,4 @@
 
 - You should see something like this **Local:   http://localhost:5173/**. You can `Cmd + click` on the **http://localhost:5173/** to open it in the browser or (Ctr + Click for windows users).
 
+- You may want to visit the project deployed on Netlify [**here**](https://transactions-history-dashboard.netlify.app)

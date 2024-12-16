@@ -83,6 +83,13 @@ const LoginPage = () => {
             loading={loading}
           />
         </form>
+        <p className="mt-5 text-red-700 animate-bounce">
+          <p className="underline">Credentials:</p>
+          <ul className="font-serif">
+            <li className='text-sm'>Email: <span className="text-blue-400">admin@gmail.com</span></li>
+            <li className='text-sm'>Password: <span className="text-blue-400">admin</span></li>
+          </ul>
+        </p>
       </div>
     </section>
   );
