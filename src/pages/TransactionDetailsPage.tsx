@@ -19,7 +19,6 @@ import moment from "moment";
 import { useEffect } from "react";
 
 const TransactionDetailsPage = () => {
-  const userEmail = localStorage.getItem("userEmail");
   const dispatch = useDispatch();
   const { transactionId } = useParams();
   const { loading, error, transactionDetails } = useSelector(
