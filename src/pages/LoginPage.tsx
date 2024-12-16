@@ -77,7 +77,7 @@ const LoginPage = () => {
             type="password"
             placeholder="Enter your password"
             label="Password"
-            icon={showPassword ? <Eye className='cursor-pointer absolute right-2 bottom-2' onClick={togglePasswordShow} /> : <EyeOff className='cursor-pointer absolute right-2 bottom-2' onClick={togglePasswordShow} />}
+            icon={showPassword ? <Eye className='cursor-pointer absolute right-2 top-8' onClick={togglePasswordShow} /> : <EyeOff className='cursor-pointer absolute right-2 top-8' onClick={togglePasswordShow} />}
             showPassword={showPassword}
             handleChange={(e) => setPassword(e.target.value)}
             required
